@@ -10,7 +10,7 @@
 <head>
     <title>Submitted page</title>
 </head>
-<body>
+<body >
 <p>You have successfully submitted!</p>
 <p>The registered contact info is:</p>
 <ol>
