@@ -21,9 +21,8 @@ public class ListAllContactsServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Contact> allContacts=ContactsServiceImpl.getInstance().getAll();
-        request.setAttribute("allContacts",allContacts);
-        request.getRequestDispatcher("list.jsp").forward(request,response);
-
+        List<Contact> allContacts = ContactsServiceImpl.getInstance().getAll();
+        request.setAttribute("allContacts", allContacts);
+        request.getRequestDispatcher("list.jsp").forward(request, response);
     }
 }

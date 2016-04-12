@@ -11,4 +11,13 @@
         <servlet-name>CreateContactServlet</servlet-name>
         <url-pattern>/create</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ListAllContactsServlet</servlet-name>
+        <servlet-class>com.addressbook.model.servlets.ListAllContactsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ListAllContactsServlet</servlet-name>
+        <url-pattern>/list</url-pattern>
+    </servlet-mapping>
 </web-app>

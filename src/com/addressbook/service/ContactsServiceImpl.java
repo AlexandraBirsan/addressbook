@@ -25,7 +25,7 @@ public class ContactsServiceImpl implements ContactsService {
 
     @Override
     public void createContact(Contact contact) {
-
+        contact.setId(Database.CONTACTS.size());
 
         Database.CONTACTS.add(contact);
     }
@@ -43,14 +43,13 @@ public class ContactsServiceImpl implements ContactsService {
     }
 
     @Override
-    public Contact getContact(Long id) {
+    public Contact getContact(Integer id) {
         return Database.CONTACTS.get(Integer.valueOf(id.toString()));
     }
 
     @Override
-    public void deleteContact(Long id) {
-        int it = Integer.valueOf(getContact(id).getId().toString()).intValue();
-        Database.CONTACTS.remove(it);
+    public void deleteContact(Integer id) {
+        Database.CONTACTS.remove(id);
     }
 
     @Override

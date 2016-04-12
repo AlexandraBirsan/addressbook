@@ -2,7 +2,9 @@ package com.addressbook.model.servlets;
 
 import com.addressbook.controller.Validator;
 import com.addressbook.model.Contact;
+import com.addressbook.model.PhoneNumber;
 import com.addressbook.service.ContactsServiceImpl;
+import com.addressbook.service.Database;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,11 +24,19 @@ public class CreateContactServlet extends HttpServlet {
 
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
-        List<String> phoneNumber = new ArrayList<>();
-        String company=request.getParameter("company");
-        Contact contact=new Contact().setFirstName(firstName).setLastName(lastName).setCompany(company);
+        PhoneNumber phoneNumber = new PhoneNumber();
+        String company = request.getParameter("company");
+        String phoneNumbersString = request.getParameter("phoneNumber");
+        List<PhoneNumber> phoneNumbers = new ArrayList<>();
+        String[] phoneNumbersArray = phoneNumbersString.split(phoneNumbersString);
+        for (String numberValue : phoneNumbersArray) {
+            PhoneNumber number = new PhoneNumber().setContactId(Database.CONTACTS.size()).setNumber(numberValue);
+            phoneNumbers.add(number);
+        }
+        Contact contact = new Contact().setFirstName(firstName).setLastName(lastName)
+                        .setCompany(company).setPhoneNumber(phoneNumbers);
         ContactsServiceImpl.getInstance().createContact(contact);
-        request.getRequestDispatcher("success.html").forward(request,response);
+        request.getRequestDispatcher("success.html").forward(request, response);
 
 
     }

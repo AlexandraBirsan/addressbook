@@ -7,17 +7,17 @@ import java.util.Vector;
  * Created by birsan on 4/11/2016.
  */
 public class Contact {
-    private Long id;
+    private Integer id;
     private String firstName;
     private String lastName;
     private String company;
     private byte[] photo;
     private List<PhoneNumber> phoneNumber;
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public Contact setId(Long id) {
+    public Contact setId(Integer id) {
         this.id = id;
         return this;
     }
