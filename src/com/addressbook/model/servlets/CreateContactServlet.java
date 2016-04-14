@@ -26,17 +26,16 @@ public class CreateContactServlet extends HttpServlet {
         String lastName = request.getParameter("lastName");
         PhoneNumber phoneNumber = new PhoneNumber();
         String company = request.getParameter("company");
-        String phoneNumbersString = request.getParameter("phoneNumber");
-        List<PhoneNumber> phoneNumbers = new ArrayList<>();
-        String[] phoneNumbersArray = phoneNumbersString.split(phoneNumbersString);
-        for (String numberValue : phoneNumbersArray) {
+        String[] phoneNumbers = request.getParameterValues("phoneNumber");
+        List<PhoneNumber> phoneNums = new ArrayList<>();
+        for (String numberValue : phoneNumbers) {
             PhoneNumber number = new PhoneNumber().setContactId(Database.CONTACTS.size()).setNumber(numberValue);
-            phoneNumbers.add(number);
+            phoneNums.add(number);
         }
         Contact contact = new Contact().setFirstName(firstName).setLastName(lastName)
-                        .setCompany(company).setPhoneNumber(phoneNumbers);
+                        .setCompany(company).setPhoneNumber(phoneNums);
         ContactsServiceImpl.getInstance().createContact(contact);
-        request.getRequestDispatcher("success.html").forward(request, response);
+        request.getRequestDispatcher("submitted.jsp").forward(request, response);
 
 
     }

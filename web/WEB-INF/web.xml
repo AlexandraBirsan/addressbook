@@ -20,4 +20,12 @@
         <servlet-name>ListAllContactsServlet</servlet-name>
         <url-pattern>/list</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>DeleteContactServlet</servlet-name>
+        <servlet-class>com.addressbook.model.servlets.DeleteContactServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteContactServlet</servlet-name>
+        <url-pattern>/delete</url-pattern>
+    </servlet-mapping>
 </web-app>

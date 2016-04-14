@@ -5,16 +5,14 @@
   Time: 3:32 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="header.jsp" %>
 <html>
-<head>
-    <title>Submitted page</title>
-</head>
 <body >
 <p>You have successfully submitted!</p>
 <p>The registered contact info is:</p>
+<!--
 <ol>
-  <li>First name:<%=request.getAttribute("firstName")
+  <li>First name:%{contact.firstName}
   %></li>
   <li>Last name:<%=request.getAttribute("lastName")
   %></li>
@@ -22,6 +20,11 @@
   %></li>
 
 </ol>
+-->
+
+<p>Where to go?</p>
+<a href="create.jsp">Create contact</a><br/>
+<a href="list">List all contacts</a>
 
 </body>
 </html>
