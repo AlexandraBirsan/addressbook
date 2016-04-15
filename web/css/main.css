@@ -1,13 +1,14 @@
 table {
     border-collapse: collapse;
 }
-
 table, td, th {
     border: 1px solid black;
 }
-
 #bottom-text{
     border-left: hidden;
     border-bottom: hidden;
     border-top: hidden;
+}
+.photo{
+    max-height: 20px;
 }

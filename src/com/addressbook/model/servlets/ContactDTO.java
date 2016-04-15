@@ -8,11 +8,13 @@ public class ContactDTO {
     private String firstName;
     private String lastName;
     private String company;
-    private byte[] photo;
+    private String photo;
     private String phoneNumber;
+    private String contentType;
 
-    public Integer getId() {
-        return id;
+    public ContactDTO setContentType(String contentType) {
+        this.contentType = contentType;
+        return this;
     }
 
     public ContactDTO setId(Integer id) {
@@ -20,17 +22,9 @@ public class ContactDTO {
         return this;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
     public ContactDTO setFirstName(String firstName) {
         this.firstName = firstName;
         return this;
-    }
-
-    public String getLastName() {
-        return lastName;
     }
 
     public ContactDTO setLastName(String lastName) {
@@ -38,26 +32,14 @@ public class ContactDTO {
         return this;
     }
 
-    public String getCompany() {
-        return company;
-    }
-
     public ContactDTO setCompany(String company) {
         this.company = company;
         return this;
     }
 
-    public byte[] getPhoto() {
-        return photo;
-    }
-
-    public ContactDTO setPhoto(byte[] photo) {
+    public ContactDTO setPhoto(String photo) {
         this.photo = photo;
         return this;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
     }
 
     public ContactDTO setPhoneNumber(String phoneNumber) {

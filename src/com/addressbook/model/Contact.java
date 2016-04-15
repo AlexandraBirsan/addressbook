@@ -1,7 +1,6 @@
 package com.addressbook.model;
 
 import java.util.List;
-import java.util.Vector;
 
 /**
  * Created by birsan on 4/11/2016.
@@ -11,8 +10,19 @@ public class Contact {
     private String firstName;
     private String lastName;
     private String company;
-    private byte[] photo;
     private List<PhoneNumber> phoneNumber;
+    private String contentType;
+    private byte[] photo;
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public Contact setContentType(String contentType) {
+        this.contentType = contentType;
+        return this;
+    }
+
     public Integer getId() {
         return id;
     }

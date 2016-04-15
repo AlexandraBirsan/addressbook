@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 /**
@@ -18,6 +19,9 @@ import java.util.List;
  */
 @WebServlet(name = "ListContactsServlet")
 public class ListAllContactsServlet extends HttpServlet {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+       doGet(request, response);
+    }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Contact> allContacts = ContactsServiceImpl.getInstance().getAll();
@@ -33,7 +37,9 @@ public class ListAllContactsServlet extends HttpServlet {
         contactDTO.setFirstName(contact.getFirstName());
         contactDTO.setLastName(contact.getLastName());
         contactDTO.setCompany(contact.getCompany());
-        contactDTO.setPhoto(contact.getPhoto());
+        contactDTO.setContentType(contact.getContentType());
+        String base64 = (contact.getPhoto() == null) ? "" : Base64.getEncoder().encodeToString(contact.getPhoto());
+        contactDTO.setPhoto(base64);
         String num = "";
         for (PhoneNumber number : contact.getPhoneNumber()) {
             num += number.getNumber() + ", ";

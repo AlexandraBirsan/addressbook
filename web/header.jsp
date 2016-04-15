@@ -5,5 +5,4 @@
 <html lang="en">
 <head>
     <link rel="icon" href="${pageContext.request.contextPath}/res//images/contacts.jpg">
-
 </head>
