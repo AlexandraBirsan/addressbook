@@ -30,14 +30,14 @@ public class ContactsServiceImpl implements ContactsService {
     }
 
     @Override
-    public void updateContact(Contact contact) {
-        Contact existingContact = Database.CONTACTS.get(Integer.valueOf(contact.getId().toString()));
-        existingContact.setFirstName(contact.getFirstName());
-        existingContact.setCompany(contact.getCompany());
-        existingContact.setLastName(contact.getLastName());
-        existingContact.setPhoneNumber(contact.getPhoneNumber());
-        existingContact.setPhoto(contact.getPhoto());
-        Database.CONTACTS.set(Integer.valueOf(contact.getId().toString()), existingContact);
+    public void updateContact(Integer id) {
+        Contact contact = Database.CONTACTS.get(id.intValue());
+        contact.setFirstName(contact.getFirstName());
+        contact.setCompany(contact.getCompany());
+        contact.setLastName(contact.getLastName());
+        contact.setPhoneNumber(contact.getPhoneNumber());
+        contact.setPhoto(contact.getPhoto());
+        Database.CONTACTS.set(Integer.valueOf(contact.getId().toString()), contact);
     }
 
     @Override

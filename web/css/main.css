@@ -12,3 +12,6 @@ table, td, th {
 .photo{
     max-height: 20px;
 }
+.error{
+    color: red;
+}

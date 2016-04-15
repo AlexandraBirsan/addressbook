@@ -10,6 +10,35 @@ public class ContactDTO {
     private String company;
     private String photo;
     private String phoneNumber;
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
     private String contentType;
 
     public ContactDTO setContentType(String contentType) {

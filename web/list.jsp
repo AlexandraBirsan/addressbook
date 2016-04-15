@@ -1,5 +1,4 @@
 <%@ include file="header.jsp" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <link rel="stylesheet" type="text/css" href="css/main.css"/>
 <body>
 <p>
@@ -28,7 +27,11 @@
             <td>
                 <form method="post" action="delete">
                     <input type="hidden" name="deletedId" value="${contact.id}"/>
-                    <input type="submit" value="-"/>
+                    <input type="submit" value="delete"/>
+                </form>
+                <form method="get" action="update">
+                    <input type="hidden" name="updateId" value="${contact.id}">
+                    <input type="submit" value="update" >
                 </form>
             </td>
             <c:choose>

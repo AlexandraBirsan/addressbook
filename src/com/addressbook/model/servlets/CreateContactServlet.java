@@ -34,15 +34,21 @@ public class CreateContactServlet extends HttpServlet {
         factory.setRepository(repository);
         ServletFileUpload upload = new ServletFileUpload(factory);
         try {
-            Contact contact = buildContactFromRequest(request, upload);
-            ContactsServiceImpl.getInstance().createContact(contact);
+            ContactResponseDTO contactResponseDTO = buildContactFromRequest(request, upload);
+            if (!contactResponseDTO.errorMessage.isEmpty()) {
+                request.setAttribute("errorMessage", contactResponseDTO.errorMessage);
+                request.getRequestDispatcher("create.jsp").forward(request, response);
+            } else {
+                ContactsServiceImpl.getInstance().createContact(contactResponseDTO.contact);
+                request.getRequestDispatcher("submitted.jsp").forward(request, response);
+            }
         } catch (FileUploadException e) {
             e.printStackTrace();
         }
-        request.getRequestDispatcher("submitted.jsp").forward(request, response);
     }
 
-    private Contact buildContactFromRequest(HttpServletRequest request, ServletFileUpload upload) throws FileUploadException {
+    private ContactResponseDTO buildContactFromRequest(HttpServletRequest request, ServletFileUpload upload) throws FileUploadException {
+        ContactResponseDTO contactResponseDTO = new ContactResponseDTO();
         Contact contact = new Contact();
         List<FileItem> items = upload.parseRequest(request);
         List<PhoneNumber> phoneNumbers = new ArrayList<>();
@@ -67,11 +73,19 @@ public class CreateContactServlet extends HttpServlet {
                     byte[] picture = item.get();
                     contact.setPhoto(picture);
                     contact.setContentType(item.getContentType());
+                } else {
+                    contactResponseDTO.errorMessage = "You should upload only images!";
                 }
             }
         }
         contact.setPhoneNumber(phoneNumbers);
-        return contact;
+        contactResponseDTO.contact = contact;
+        return contactResponseDTO;
+    }
+
+    private static class ContactResponseDTO {
+        private Contact contact;
+        private String errorMessage = "";
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

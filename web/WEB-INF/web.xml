@@ -28,4 +28,12 @@
         <servlet-name>DeleteContactServlet</servlet-name>
         <url-pattern>/delete</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>UpdateContactServlet</servlet-name>
+        <servlet-class>com.addressbook.model.servlets.UpdateContactServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateContactServlet</servlet-name>
+        <url-pattern>/update</url-pattern>
+    </servlet-mapping>
 </web-app>

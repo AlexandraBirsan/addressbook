@@ -1,6 +1,4 @@
 <%@ include file="header.jsp" %>
-
-<body>
 <form action="create" method="post" enctype="multipart/form-data">
     <table>
         <tr>
@@ -26,7 +24,7 @@
                     <tr>
                         <td><input type="text" name="phoneNumber"/></td>
                         <td>
-                            <input type="button"  onclick="addPhoneNumber()" value="+"/>
+                            <input type="button" onclick="addPhoneNumber()" value="+"/>
                         </td>
                     </tr>
                 </table>
@@ -35,6 +33,11 @@
     </table>
     <input type="submit" value="Submit"/>
 </form>
+<c:choose>
+    <c:when test="${fn:length(errorMessage)>0}">
+    <p class="error">${errorMessage}</p>
+    </c:when>
+</c:choose>
 </body>
 <script src="scripts/create.js" type="text/javascript"></script>
 <link rel="stylesheet" type="text/css" href="css/main.css"/>
