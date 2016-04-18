@@ -74,7 +74,10 @@ public class CreateContactServlet extends HttpServlet {
                     contact.setPhoto(picture);
                     contact.setContentType(item.getContentType());
                 } else {
-                    contactResponseDTO.errorMessage = "You should upload only images!";
+                    if (item.getSize() > 0) {
+                        contactResponseDTO.errorMessage = "You should upload only images!";
+                    }
+
                 }
             }
         }

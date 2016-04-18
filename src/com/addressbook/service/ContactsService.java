@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface ContactsService {
     void createContact(Contact contact);
-        void updateContact(Integer id);
+        void updateContact(Contact contact);
     Contact getContact(Integer id);
     void deleteContact(Integer id);
     List<Contact> getAll();

@@ -30,14 +30,14 @@ public class ContactsServiceImpl implements ContactsService {
     }
 
     @Override
-    public void updateContact(Integer id) {
-        Contact contact = Database.CONTACTS.get(id.intValue());
-        contact.setFirstName(contact.getFirstName());
-        contact.setCompany(contact.getCompany());
-        contact.setLastName(contact.getLastName());
-        contact.setPhoneNumber(contact.getPhoneNumber());
-        contact.setPhoto(contact.getPhoto());
-        Database.CONTACTS.set(Integer.valueOf(contact.getId().toString()), contact);
+    public void updateContact(Contact contact) {
+        Contact updatedContact = Database.CONTACTS.get(contact.getId().intValue());
+        updatedContact.setFirstName(contact.getFirstName());
+        updatedContact.setCompany(contact.getCompany());
+        updatedContact.setLastName(contact.getLastName());
+        updatedContact.setPhoneNumber(contact.getPhoneNumber());
+        updatedContact.setPhoto(contact.getPhoto());
+        Database.CONTACTS.set(Integer.valueOf(contact.getId().toString()), updatedContact);
     }
 
     @Override
@@ -48,6 +48,9 @@ public class ContactsServiceImpl implements ContactsService {
     @Override
     public void deleteContact(Integer id) {
         Database.CONTACTS.remove(id.intValue());
+        for(int i=id.intValue();i<Database.CONTACTS.size();i++){
+            Database.CONTACTS.get(i).setId(Database.CONTACTS.get(i).getId()-1);
+        }
     }
 
     @Override
