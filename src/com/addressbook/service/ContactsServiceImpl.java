@@ -1,6 +1,7 @@
 package com.addressbook.service;
 
 import com.addressbook.model.Contact;
+import com.addressbook.model.PhoneNumber;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -25,7 +26,10 @@ public class ContactsServiceImpl implements ContactsService {
 
     @Override
     public void createContact(Contact contact) {
-        contact.setId(Database.CONTACTS.size());
+        int size = Database.CONTACTS.size();
+        contact.setId(size);
+        List<PhoneNumber> phoneNumbers = contact.getPhoneNumber();
+        phoneNumbers.stream().forEach(phoneNumber -> phoneNumber.setContactId(size));
         Database.CONTACTS.add(contact);
     }
 

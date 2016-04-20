@@ -20,8 +20,7 @@ public class PhoneNumber {
         return number;
     }
 
-    public PhoneNumber setNumber(String number) {
+    public void setNumber(String number) {
         this.number = number;
-        return this;
     }
 }

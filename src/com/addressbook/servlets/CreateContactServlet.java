@@ -63,8 +63,8 @@ public class CreateContactServlet extends HttpServlet {
                 } else if (fieldName.equals("company")) {
                     contact.setCompany(fieldValue);
                 } else if (fieldName.equals("phoneNumber")) {
-                    PhoneNumber number = new PhoneNumber().setContactId(Database.CONTACTS.size()).setNumber(fieldValue);
-                    phoneNumbers.add(number);
+//                    PhoneNumber number = new PhoneNumber().setContactId(Database.CONTACTS.size()).setNumber(fieldValue);
+//                    phoneNumbers.add(number);
                 } else {
                     throw new IllegalArgumentException("Invalid field name detected.");
                 }
