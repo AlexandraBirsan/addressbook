@@ -3,6 +3,8 @@ package com.addressbook.service;
 import com.addressbook.model.Contact;
 import com.addressbook.model.PhoneNumber;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.addressbook.model.servlets;
+package com.addressbook.servlets;
 
 import com.addressbook.service.ContactsServiceImpl;
 

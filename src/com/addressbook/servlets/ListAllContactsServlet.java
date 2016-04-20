@@ -1,5 +1,6 @@
-package com.addressbook.model.servlets;
+package com.addressbook.servlets;
 
+import com.addressbook.dto.ContactDTO;
 import com.addressbook.model.Contact;
 import com.addressbook.model.PhoneNumber;
 import com.addressbook.service.ContactsServiceImpl;
@@ -33,16 +34,16 @@ public class ListAllContactsServlet extends HttpServlet {
 
     public ContactDTO contactToDTO(Contact contact) {
         ContactDTO contactDTO = new ContactDTO();
-        contactDTO.setId(contact.getId());
-        contactDTO.setFirstName(contact.getFirstName());
-        contactDTO.setLastName(contact.getLastName());
-        contactDTO.setCompany(contact.getCompany());
-        contactDTO.setContentType(contact.getContentType());
-        String base64 = (contact.getPhoto() == null) ? "" : Base64.getEncoder().encodeToString(contact.getPhoto());
-        contactDTO.setPhoto(base64);
-        String num = "";
-        for (PhoneNumber number : contact.getPhoneNumber()) {
-            num += number.getNumber() + ", ";
+            contactDTO.setId(contact.getId());
+            contactDTO.setFirstName(contact.getFirstName());
+            contactDTO.setLastName(contact.getLastName());
+            contactDTO.setCompany(contact.getCompany());
+//            contactDTO.setContentType(contact.getContentType());
+            String base64 = (contact.getPhoto() == null) ? "" : Base64.getEncoder().encodeToString(contact.getPhoto());
+            contactDTO.setPhoto(base64);
+            String num = "";
+            for (PhoneNumber number : contact.getPhoneNumber()) {
+                num += number.getNumber() + ", ";
         }
         num = num.substring(0, num.length() - 2);
         contactDTO.setPhoneNumber(num);

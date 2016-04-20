@@ -1,4 +1,4 @@
-package com.addressbook.model.servlets;
+package com.addressbook.servlets;
 
 import com.addressbook.model.Contact;
 import com.addressbook.model.PhoneNumber;
@@ -20,13 +20,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by birsan on 4/15/2016.
+ * Created by birsan on 4/11/2016.
  */
-@WebServlet(name = "UpdateContactServlet")
-public class UpdateContactServlet extends HttpServlet {
+@WebServlet(name = "CreateContactServlet")
+public class CreateContactServlet extends HttpServlet {
+
     private static final String TEMP_PATH = "javax.servlet.context.tempdir";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         DiskFileItemFactory factory = new DiskFileItemFactory();
         File repository = (File) request.getServletContext().getAttribute(TEMP_PATH);
         factory.setRepository(repository);
@@ -35,23 +37,14 @@ public class UpdateContactServlet extends HttpServlet {
             ContactResponseDTO contactResponseDTO = buildContactFromRequest(request, upload);
             if (!contactResponseDTO.errorMessage.isEmpty()) {
                 request.setAttribute("errorMessage", contactResponseDTO.errorMessage);
-                request.getRequestDispatcher("list").forward(request, response);
+                request.getRequestDispatcher("create.jsp").forward(request, response);
             } else {
-                Contact contact = contactResponseDTO.contact;
-                ContactsServiceImpl.getInstance().updateContact(contact);
+                ContactsServiceImpl.getInstance().createContact(contactResponseDTO.contact);
                 request.getRequestDispatcher("submitted.jsp").forward(request, response);
             }
         } catch (FileUploadException e) {
             e.printStackTrace();
         }
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Integer id = Integer.valueOf(request.getParameter("updateId"));
-        Contact contact = Database.CONTACTS.get(id.intValue());
-        request.setAttribute("toBeUpdatedContact", contact);
-        request.getRequestDispatcher("update.jsp").forward(request, response);
-
     }
 
     private ContactResponseDTO buildContactFromRequest(HttpServletRequest request, ServletFileUpload upload) throws FileUploadException {
@@ -63,9 +56,7 @@ public class UpdateContactServlet extends HttpServlet {
             if (item.isFormField()) {
                 String fieldName = item.getFieldName();
                 String fieldValue = item.getString();
-                if (fieldName.equals("updatedId")) {
-                    contact.setId(Integer.valueOf(fieldValue));
-                } else if (fieldName.equals("firstName")) {
+                if (fieldName.equals("firstName")) {
                     contact.setFirstName(fieldValue);
                 } else if (fieldName.equals("lastName")) {
                     contact.setLastName(fieldValue);
@@ -99,4 +90,9 @@ public class UpdateContactServlet extends HttpServlet {
         private Contact contact;
         private String errorMessage = "";
     }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    }
+
 }
