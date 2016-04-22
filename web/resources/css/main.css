@@ -15,3 +15,8 @@ table, td, th {
 .error{
     color: red;
 }
+.welcomeMessage{
+    color: red;
+    font-size: 50px;
+    font-family: cursive;
+}
