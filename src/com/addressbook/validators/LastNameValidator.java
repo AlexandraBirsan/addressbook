@@ -1,4 +1,4 @@
-package com.addressbook.controller;
+package com.addressbook.validators;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -13,7 +13,7 @@ public class LastNameValidator implements Validator {
     @Override
     public void validate(FacesContext facesContext, UIComponent uiComponent, Object o) throws ValidatorException {
         if(o.toString().isEmpty()||!Character.isUpperCase(o.toString().charAt(0))){
-            FacesMessage message=new FacesMessage("Invalid first name or last name!");
+            FacesMessage message=new FacesMessage("Invalid last name!");
             throw  new ValidatorException(message);
         }
     }

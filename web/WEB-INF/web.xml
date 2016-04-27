@@ -3,39 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
-    <servlet>
-        <servlet-name>CreateContactServlet</servlet-name>
-        <servlet-class>com.addressbook.servlets.CreateContactServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>CreateContactServlet</servlet-name>
-        <url-pattern>/create</url-pattern>
-    </servlet-mapping>
 
-    <servlet>
-        <servlet-name>ListAllContactsServlet</servlet-name>
-        <servlet-class>com.addressbook.servlets.ListAllContactsServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ListAllContactsServlet</servlet-name>
-        <url-pattern>/list</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>DeleteContactServlet</servlet-name>
-        <servlet-class>com.addressbook.servlets.DeleteContactServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>DeleteContactServlet</servlet-name>
-        <url-pattern>/delete</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>UpdateContactServlet</servlet-name>
-        <servlet-class>com.addressbook.servlets.UpdateContactServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>UpdateContactServlet</servlet-name>
-        <url-pattern>/update</url-pattern>
-    </servlet-mapping>
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
