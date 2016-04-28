@@ -10,9 +10,9 @@ public class Contact {
     private String firstName;
     private String lastName;
     private String company;
-    private List<PhoneNumber> phoneNumber;
     private String contentType;
     private byte[] photo;
+    private List<PhoneNumber> phoneNumber;
 
     public String getContentType() {
         return contentType;

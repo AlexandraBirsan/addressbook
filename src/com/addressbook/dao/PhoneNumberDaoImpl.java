@@ -23,8 +23,7 @@ public class PhoneNumberDaoImpl implements PhoneNumberDao {
         try {
             connection = DriverManager.getConnection(ConnectionConstants.URL, ConnectionConstants.USERNAME, ConnectionConstants.PASSWORD);
             createStatement = connection.prepareStatement(QueriesManager.getInstance().getCreatePhoneNumberSQL());
-            for (int i = 0; i < phoneNumbers.size(); i++) {
-                PhoneNumber number = phoneNumbers.get(i);
+            for (PhoneNumber number : phoneNumbers) {
                 createStatement.setLong(1, id);
                 createStatement.setString(2, number.getNumber());
                 createStatement.addBatch();
@@ -41,20 +40,20 @@ public class PhoneNumberDaoImpl implements PhoneNumberDao {
 
     @Override
     public void updatePhoneNumber(Contact contact) {
-        Connection connection=null;
-        PreparedStatement updateStatement=null;
-        try{
-            connection=DriverManager.getConnection(ConnectionConstants.URL,ConnectionConstants.USERNAME,ConnectionConstants.PASSWORD);
-            updateStatement=connection.prepareStatement(QueriesManager.getInstance().getUpdateContactSQL());
-            for(PhoneNumber number:contact.getPhoneNumber()){
-                updateStatement.setString(1,number.getNumber());
-                updateStatement.setLong(2,contact.getId());
+        Connection connection = null;
+        PreparedStatement updateStatement = null;
+        try {
+            connection = DriverManager.getConnection(ConnectionConstants.URL, ConnectionConstants.USERNAME, ConnectionConstants.PASSWORD);
+            updateStatement = connection.prepareStatement(QueriesManager.getInstance().getUpdateContactSQL());
+            for (PhoneNumber number : contact.getPhoneNumber()) {
+                updateStatement.setString(1, number.getNumber());
+                updateStatement.setLong(2, contact.getId());
                 updateStatement.addBatch();
             }
             updateStatement.executeBatch();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             DbUtils.closeQuietly(updateStatement);
             DbUtils.closeQuietly(connection);
         }

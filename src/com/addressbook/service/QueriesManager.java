@@ -33,6 +33,15 @@ public class QueriesManager {
     private String getNextValueSQL;
     private String updateContactSQL;
     private String updatePhoneNumberSQL;
+    private String getContactSQL;
+
+    public String getGetContactSQL() {
+        return getContactSQL;
+    }
+
+    public void setGetContactSQL(String getContactSQL) {
+        this.getContactSQL = getContactSQL;
+    }
 
     public String getUpdateContactSQL() {
         return updateContactSQL;
