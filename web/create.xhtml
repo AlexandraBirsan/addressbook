@@ -26,7 +26,7 @@
             <f:validator validatorId="imageValidator"/>
         </h:inputFile>
         <h:outputLabel value="PhoneNumber"/>
-        <h:dataTable id="initialFormTable" value="#{contactBean.phoneNumber}" var="phoneNumber">
+        <h:dataTable id="initialFormTable" value="#{contactBean.phoneNumbers}" var="phoneNumber">
             <h:column id="tableColumn">
                 <h:inputText id="phoneNum" value="#{phoneNumber.number}">
                     <f:validator validatorId="phoneValidator"/>

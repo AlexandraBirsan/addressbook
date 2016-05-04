@@ -13,7 +13,9 @@ public class QueriesManager {
     public static QueriesManager getInstance() {
         return LazyHolder.INSTANCE;
     }
-    private QueriesManager(){}
+
+    private QueriesManager() {
+    }
 
     public String getGetNextValueSQL() {
         return getNextValueSQL;
@@ -34,6 +36,24 @@ public class QueriesManager {
     private String updateContactSQL;
     private String updatePhoneNumberSQL;
     private String getContactSQL;
+    private String getAllContactsSQL;
+    private String deleteContact;
+
+    public String getDeleteContact() {
+        return deleteContact;
+    }
+
+    public void setDeleteContact(String deleteContact) {
+        this.deleteContact = deleteContact;
+    }
+
+    public String getGetAllContactsSQL() {
+        return getAllContactsSQL;
+    }
+
+    public void setGetAllContactsSQL(String getAllContactsSQL) {
+        this.getAllContactsSQL = getAllContactsSQL;
+    }
 
     public String getGetContactSQL() {
         return getContactSQL;

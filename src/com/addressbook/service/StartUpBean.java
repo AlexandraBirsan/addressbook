@@ -43,15 +43,19 @@ public class StartUpBean {
         String createPhoneNumber = properties.getProperty("createPhoneNumber");
         String createContact = properties.getProperty("createContact");
         String nextVal = properties.getProperty("nextVal");
-        String updateContactSQL=properties.getProperty("updateContact");
-        String updatePhoneNumbersSQL=properties.getProperty("updatePhoneNumbers");
-        String getContactSQL=properties.getProperty("getContact");
+        String updateContactSQL = properties.getProperty("updateContact");
+        String updatePhoneNumbersSQL = properties.getProperty("updatePhoneNumbers");
+        String getContactSQL = properties.getProperty("getContact");
+        String getAllContacts = properties.getProperty("getAllContacts");
+        String deleteContact = properties.getProperty("delete");
         QueriesManager.getInstance().setCreateContactSQL(createContact);
         QueriesManager.getInstance().setCreatePhoneNumberSQL(createPhoneNumber);
         QueriesManager.getInstance().setGetNextValueSQL(nextVal);
         QueriesManager.getInstance().setUpdateContactSQL(updateContactSQL);
         QueriesManager.getInstance().setUpdatePhoneNumberSQL(updatePhoneNumbersSQL);
         QueriesManager.getInstance().setGetContactSQL(getContactSQL);
+        QueriesManager.getInstance().setGetAllContactsSQL(getAllContacts);
+        QueriesManager.getInstance().setDeleteContact(deleteContact);
     }
 
     private void loadDatabaseProperties() throws IOException, SQLException {

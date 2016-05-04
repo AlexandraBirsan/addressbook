@@ -3,8 +3,6 @@ package com.addressbook.service;
 import com.addressbook.model.Contact;
 import com.addressbook.model.PhoneNumber;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +24,7 @@ public class Database {
         PhoneNumber p3 = new PhoneNumber();
         p3.setContactId(0);
         p3.setNumber("123");
-        contact1.setPhoneNumber(Arrays.asList(p1, p2, p3));
+        contact1.setPhoneNumbers(Arrays.asList(p1, p2, p3));
         CONTACTS.add(contact1);
 
     }

@@ -44,10 +44,10 @@ public class PhoneNumberDaoImpl implements PhoneNumberDao {
         PreparedStatement updateStatement = null;
         try {
             connection = DriverManager.getConnection(ConnectionConstants.URL, ConnectionConstants.USERNAME, ConnectionConstants.PASSWORD);
-            updateStatement = connection.prepareStatement(QueriesManager.getInstance().getUpdateContactSQL());
-            for (PhoneNumber number : contact.getPhoneNumber()) {
-                updateStatement.setString(1, number.getNumber());
-                updateStatement.setLong(2, contact.getId());
+            updateStatement = connection.prepareStatement(QueriesManager.getInstance().getUpdatePhoneNumberSQL());
+            for (int i = 0; i < contact.getPhoneNumbers().size(); i++) {
+                updateStatement.setString(1, contact.getPhoneNumbers().get(i).getNumber());
+                updateStatement.setInt(2, contact.getId());
                 updateStatement.addBatch();
             }
             updateStatement.executeBatch();

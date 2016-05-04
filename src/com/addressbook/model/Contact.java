@@ -12,7 +12,7 @@ public class Contact {
     private String company;
     private String contentType;
     private byte[] photo;
-    private List<PhoneNumber> phoneNumber;
+    private List<PhoneNumber> phoneNumbers;
 
     public String getContentType() {
         return contentType;
@@ -68,12 +68,12 @@ public class Contact {
         return this;
     }
 
-    public List<PhoneNumber> getPhoneNumber() {
-        return phoneNumber;
+    public List<PhoneNumber> getPhoneNumbers() {
+        return phoneNumbers;
     }
 
-    public Contact setPhoneNumber(List<PhoneNumber> phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public Contact setPhoneNumbers(List<PhoneNumber> phoneNumbers) {
+        this.phoneNumbers = phoneNumbers;
         return this;
     }
 }

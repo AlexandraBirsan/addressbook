@@ -30,14 +30,14 @@ public class ContactCreateBackingBean {
     private String firstName;
     private String lastName;
     private String company;
-    private List<PhoneNumber> phoneNumber = new ArrayList<>();
+    private List<PhoneNumber> phoneNumbers = new ArrayList<>();
     private Part photo;
 
     @PostConstruct
     public void init() {
         PhoneNumber initialPhoneNumber = new PhoneNumber();
         initialPhoneNumber.setNumber("");
-        phoneNumber.add(initialPhoneNumber);
+        phoneNumbers.add(initialPhoneNumber);
     }
 
     public Integer getId() {
@@ -72,12 +72,12 @@ public class ContactCreateBackingBean {
         this.company = company;
     }
 
-    public List<PhoneNumber> getPhoneNumber() {
-        return phoneNumber;
+    public List<PhoneNumber> getPhoneNumbers() {
+        return phoneNumbers;
     }
 
-    public void setPhoneNumber(List<PhoneNumber> phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setPhoneNumbers(List<PhoneNumber> phoneNumbers) {
+        this.phoneNumbers = phoneNumbers;
     }
 
     public Part getPhoto() {
@@ -95,14 +95,14 @@ public class ContactCreateBackingBean {
     public String addPhoneNumber() {
         PhoneNumber number = new PhoneNumber();
         number.setNumber("");
-        phoneNumber.add(number);
+        phoneNumbers.add(number);
         return "added";
     }
 
     public String createContact() throws IOException {
         Contact contact = new Contact();
         byte[] bytes = org.apache.commons.io.IOUtils.toByteArray(photo.getInputStream());
-        contact.setPhoneNumber(phoneNumber).setCompany(company).setPhoto(bytes).setFirstName(firstName).setLastName(lastName).setContentType(photo.getContentType());
+        contact.setPhoneNumbers(phoneNumbers).setCompany(company).setPhoto(bytes).setFirstName(firstName).setLastName(lastName).setContentType(photo.getContentType());
         ContactsServiceImpl.getInstance().createContact(contact);
         return "created";
     }
@@ -116,7 +116,7 @@ public class ContactCreateBackingBean {
         Pattern pattern = Pattern.compile("\\d{3}-\\d{7}");
         Matcher matcher = pattern.matcher(phoneNumber);
         if (!matcher.matches() || phoneNumber.isEmpty()) {
-            FacesMessage message = new FacesMessage("Invalid phoneNumber!");
+            FacesMessage message = new FacesMessage("Invalid phoneNumbers!");
             message.setSeverity(FacesMessage.SEVERITY_ERROR);
             fc.addMessage(phoneNumberId, message);
             fc.renderResponse();

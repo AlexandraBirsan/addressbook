@@ -77,6 +77,7 @@ public class ContactsDaoImpl implements ContactsDao {
             updateStatement.setBlob(PHOTO_INDEX - 1, photoInputStream);
             updateStatement.setLong(6, contact.getId());
             updateStatement.executeUpdate();
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -95,22 +96,23 @@ public class ContactsDaoImpl implements ContactsDao {
             statement = connection.prepareCall(QueriesManager.getInstance().getGetContactSQL());
             statement.setInt(1, id);
             setOutputParameters(statement);
-            ResultSet rs = statement.executeQuery();
-            while (rs.next()) {
-                String firstName = rs.getString(FIRST_NAME_INDEX);
-                String lastName = rs.getString(LAST_NAME_INDEX);
-                String company = rs.getString(COMPANY_INDEX);
-                Blob photo = rs.getBlob(PHOTO_INDEX);
-                String contentType = rs.getString(CONTENT_TYPE_INDEX);
-                List<PhoneNumber> phoneNumbers = buildPhoneNumbersFromResultSet(id, rs);
-                contact = new Contact();
-                contact.setFirstName(firstName);
-                contact.setLastName(lastName);
-                contact.setCompany(company);
-                contact.setPhoto(photo.getBytes(1, (int) photo.length()));
-                contact.setContentType(contentType);
-                contact.setPhoneNumber(phoneNumbers);
-            }
+            statement.execute();
+            String firstName = statement.getString(FIRST_NAME_INDEX);
+            String lastName = statement.getString(LAST_NAME_INDEX);
+            String company = statement.getString(COMPANY_INDEX);
+            Blob photo = statement.getBlob(PHOTO_INDEX);
+            String contentType = statement.getString(CONTENT_TYPE_INDEX);
+            ResultSet phoneResultSet = (ResultSet) statement.getObject(PHONE_CURSOR_INDEX);
+            List<PhoneNumber> phoneNumbers = buildPhoneNumbersFromResultSet(id, phoneResultSet);
+            contact = new Contact();
+            contact.setFirstName(firstName);
+            contact.setLastName(lastName);
+            contact.setCompany(company);
+            contact.setPhoto(photo.getBytes(1, (int) photo.length()));
+            contact.setContentType(contentType);
+            if (phoneNumbers == null)
+                phoneNumbers = new ArrayList<>();
+            contact.setPhoneNumbers(phoneNumbers);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -120,13 +122,12 @@ public class ContactsDaoImpl implements ContactsDao {
         return contact;
     }
 
-    private List<PhoneNumber> buildPhoneNumbersFromResultSet(Integer contactId, ResultSet rs) throws SQLException {
+    private List<PhoneNumber> buildPhoneNumbersFromResultSet(Integer contactId, ResultSet resultSet) throws SQLException {
         List<PhoneNumber> phoneNumbers = new ArrayList<>();
-        ResultSet cursorPhoneNumbers = (ResultSet) rs.getObject(PHONE_CURSOR_INDEX);
-        while (cursorPhoneNumbers.next()) {
+        while (resultSet.next()) {
             PhoneNumber number = new PhoneNumber();
             number.setContactId(contactId);
-            number.setNumber(cursorPhoneNumbers.getString(1));
+            number.setNumber(resultSet.getString(1));
             phoneNumbers.add(number);
         }
         return phoneNumbers;
@@ -143,12 +144,45 @@ public class ContactsDaoImpl implements ContactsDao {
 
     @Override
     public void deleteContact(Integer id) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = DriverManager.getConnection(ConnectionConstants.URL, ConnectionConstants.USERNAME, ConnectionConstants.PASSWORD);
+            statement=connection.prepareStatement(QueriesManager.getInstance().getDeleteContact());
+            statement.setInt(1,id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            DbUtils.closeQuietly(statement);
+            DbUtils.closeQuietly(connection);
+        }
 
     }
 
     @Override
     public List<Contact> getAll() {
-        return null;
+        Connection connection = null;
+        Statement statement = null;
+        List<Contact> contacts = null;
+        try {
+            connection = DriverManager.getConnection(ConnectionConstants.URL, ConnectionConstants.USERNAME, ConnectionConstants.PASSWORD);
+            statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(QueriesManager.getInstance().getGetAllContactsSQL());
+            contacts = new ArrayList<>();
+            while (rs.next()) {
+                Integer idContact = rs.getInt(1);
+                Contact contact = getContact(idContact);
+                contact.setId(idContact);
+                contacts.add(contact);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DbUtils.closeQuietly(statement);
+            DbUtils.closeQuietly(connection);
+        }
+        return contacts;
     }
 
 }

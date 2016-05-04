@@ -3,19 +3,12 @@ package com.addressbook.service.contacts;
 import com.addressbook.model.Contact;
 import com.addressbook.model.ContactDto;
 import com.addressbook.model.PhoneNumber;
-import com.addressbook.service.Database;
 import org.apache.commons.io.IOUtils;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
-import javax.faces.event.PhaseId;
-import javax.servlet.ServletContext;
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -27,7 +20,7 @@ import java.util.List;
 @ApplicationScoped
 public class AllContactsBackingBean {
     public List<ContactDto> getContacts() {
-        List<Contact> contacts = Database.CONTACTS;
+        List<Contact> contacts = ContactsServiceImpl.getInstance().getAll();
         List<ContactDto> contactDTOs = new ArrayList<>(contacts.size());
         contacts.stream().forEach(contact -> {
 
@@ -52,7 +45,7 @@ public class AllContactsBackingBean {
 
     private String buildPhoneNumber(Contact contact) {
         String phoneNum = "";
-        for (PhoneNumber number : contact.getPhoneNumber()) {
+        for (PhoneNumber number : contact.getPhoneNumbers()) {
             phoneNum += number.getNumber() + ", ";
         }
         if (phoneNum.length() > 2) {
@@ -65,14 +58,6 @@ public class AllContactsBackingBean {
         ContactsServiceImpl.getInstance().deleteContact(id);
         return "deleted";
     }
-
-//    public StreamedContent getPhoto() {
-//
-//        String defaultPhoto = "resources/images/defaultPhoto.png";
-//
-//        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-//        String absoluteDiskPath = servletContext.getRealPath(defaultPhoto);
-//    retur}
 
     public String update() {
         return "update";

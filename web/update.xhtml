@@ -26,18 +26,18 @@
             <f:validator validatorId="imageValidator"/>
         </h:inputFile>
         <h:outputLabel value="PhoneNumber"/>
-        <h:dataTable value="#{updateBean.phoneNumber}" var="phoneNumber">
-            <h:column>
-                <h:inputText id="phone" value="#{phoneNumber.number}">
+        <h:dataTable value="#{updateBean.phoneNumbers}" var="phoneNumber">
+            <h:column id="tableColumn">
+                <h:inputText id="phoneNumbers" value="#{phoneNumber}">
                     <f:validator validatorId="phoneValidator"/>
                 </h:inputText>
                 <br/>
-                <h:message for="phone"/>
+                <h:message for="phoneNumbers"/>
             </h:column>
         </h:dataTable>
         <h:commandButton value="+" action="#{updateBean.addPhoneNumber}" immediate="true"/>
     </h:panelGrid>
-    <h:commandButton value="Submit" action="#{updateBean.createUpdatedContact}"/>
+    <h:commandButton value="Submit" action="#{updateBean.updateContact}"/>
     <br/>
     <h:message for="firstName"/>
     <br/>

@@ -3,12 +3,8 @@ package com.addressbook.service.contacts;
 import com.addressbook.dao.ContactsDaoImpl;
 import com.addressbook.dao.PhoneNumberDaoImpl;
 import com.addressbook.model.Contact;
-import com.addressbook.model.PhoneNumber;
-import com.addressbook.service.Database;
 
-import java.sql.SQLException;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by birsan on 4/12/2016.
@@ -31,7 +27,7 @@ public class ContactsServiceImpl implements ContactsService {
     @Override
     public void createContact(Contact contact) {
         Long id = contactsDao.createContact(contact);
-        phoneNumberDao.createPhoneNumbers(id,contact.getPhoneNumber());
+        phoneNumberDao.createPhoneNumbers(id,contact.getPhoneNumbers());
     }
 
     @Override
@@ -42,19 +38,16 @@ public class ContactsServiceImpl implements ContactsService {
 
     @Override
     public Contact getContact(Integer id) {
-        return Database.CONTACTS.get(Integer.valueOf(id.toString()));
+        return contactsDao.getContact(id);
     }
 
     @Override
     public void deleteContact(Integer id) {
-        Database.CONTACTS.remove(id.intValue());
-        for (int i = id.intValue(); i < Database.CONTACTS.size(); i++) {
-            Database.CONTACTS.get(i).setId(Database.CONTACTS.get(i).getId() - 1);
-        }
+        contactsDao.deleteContact(id);
     }
 
     @Override
     public List<Contact> getAll() {
-        return Database.CONTACTS;
+        return contactsDao.getAll();
     }
 }
