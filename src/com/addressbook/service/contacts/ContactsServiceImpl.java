@@ -19,7 +19,8 @@ public class ContactsServiceImpl implements ContactsService {
         return LazyHolder.INSTANCE;
     }
 
-    private ContactsServiceImpl() {}
+    private ContactsServiceImpl() {
+    }
 
     private final ContactsDaoImpl contactsDao = new ContactsDaoImpl();
     private final PhoneNumberDaoImpl phoneNumberDao = new PhoneNumberDaoImpl();
@@ -27,7 +28,7 @@ public class ContactsServiceImpl implements ContactsService {
     @Override
     public void createContact(Contact contact) {
         Long id = contactsDao.createContact(contact);
-        phoneNumberDao.createPhoneNumbers(id,contact.getPhoneNumbers());
+        phoneNumberDao.createPhoneNumbers(id, contact.getPhoneNumbers());
     }
 
     @Override

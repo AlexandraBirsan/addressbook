@@ -77,7 +77,6 @@ public class ContactsDaoImpl implements ContactsDao {
             updateStatement.setBlob(PHOTO_INDEX - 1, photoInputStream);
             updateStatement.setLong(6, contact.getId());
             updateStatement.executeUpdate();
-
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -148,12 +147,12 @@ public class ContactsDaoImpl implements ContactsDao {
         PreparedStatement statement = null;
         try {
             connection = DriverManager.getConnection(ConnectionConstants.URL, ConnectionConstants.USERNAME, ConnectionConstants.PASSWORD);
-            statement=connection.prepareStatement(QueriesManager.getInstance().getDeleteContact());
-            statement.setInt(1,id);
+            statement = connection.prepareStatement(QueriesManager.getInstance().getDeleteContact());
+            statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             DbUtils.closeQuietly(statement);
             DbUtils.closeQuietly(connection);
         }

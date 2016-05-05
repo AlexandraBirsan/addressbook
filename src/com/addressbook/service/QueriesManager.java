@@ -34,10 +34,19 @@ public class QueriesManager {
     private String createPhoneNumberSQL;
     private String getNextValueSQL;
     private String updateContactSQL;
-    private String updatePhoneNumberSQL;
+    private String updatePhoneNumbersSQL;
     private String getContactSQL;
     private String getAllContactsSQL;
     private String deleteContact;
+    private String deletePhoneNumber;
+
+    public String getDeletePhoneNumber() {
+        return deletePhoneNumber;
+    }
+
+    public void setDeletePhoneNumber(String deletePhoneNumber) {
+        this.deletePhoneNumber = deletePhoneNumber;
+    }
 
     public String getDeleteContact() {
         return deleteContact;
@@ -71,12 +80,12 @@ public class QueriesManager {
         this.updateContactSQL = updateContactSQL;
     }
 
-    public String getUpdatePhoneNumberSQL() {
-        return updatePhoneNumberSQL;
+    public String getUpdatePhoneNumbersSQL() {
+        return updatePhoneNumbersSQL;
     }
 
-    public void setUpdatePhoneNumberSQL(String updatePhoneNumberSQL) {
-        this.updatePhoneNumberSQL = updatePhoneNumberSQL;
+    public void setUpdatePhoneNumbersSQL(String updatePhoneNumbersSQL) {
+        this.updatePhoneNumbersSQL = updatePhoneNumbersSQL;
     }
 
     public String getCreateContactSQL() {

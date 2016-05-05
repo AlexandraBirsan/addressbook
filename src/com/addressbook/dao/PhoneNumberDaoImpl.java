@@ -41,31 +41,26 @@ public class PhoneNumberDaoImpl implements PhoneNumberDao {
     @Override
     public void updatePhoneNumber(Contact contact) {
         Connection connection = null;
+        PreparedStatement deleteStatement = null;
         PreparedStatement updateStatement = null;
         try {
             connection = DriverManager.getConnection(ConnectionConstants.URL, ConnectionConstants.USERNAME, ConnectionConstants.PASSWORD);
-            updateStatement = connection.prepareStatement(QueriesManager.getInstance().getUpdatePhoneNumberSQL());
+            deleteStatement = connection.prepareStatement(QueriesManager.getInstance().getDeletePhoneNumber());
+            deleteStatement.setInt(1, contact.getId());
+            deleteStatement.executeUpdate();
+            updateStatement = connection.prepareStatement(QueriesManager.getInstance().getUpdatePhoneNumbersSQL());
             for (int i = 0; i < contact.getPhoneNumbers().size(); i++) {
-                updateStatement.setString(1, contact.getPhoneNumbers().get(i).getNumber());
-                updateStatement.setInt(2, contact.getId());
+                updateStatement.setInt(1, contact.getId());
+                updateStatement.setString(2, contact.getPhoneNumbers().get(i).getNumber());
                 updateStatement.addBatch();
             }
             updateStatement.executeBatch();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
+            DbUtils.closeQuietly(deleteStatement);
             DbUtils.closeQuietly(updateStatement);
             DbUtils.closeQuietly(connection);
         }
-    }
-
-    @Override
-    public List<PhoneNumber> getPhoneNumbers(Long id) {
-        return null;
-    }
-
-    @Override
-    public void deletePhoneNumbers(Long id) {
-
     }
 }

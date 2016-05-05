@@ -8,8 +8,6 @@ import javax.servlet.ServletContext;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
@@ -48,14 +46,16 @@ public class StartUpBean {
         String getContactSQL = properties.getProperty("getContact");
         String getAllContacts = properties.getProperty("getAllContacts");
         String deleteContact = properties.getProperty("delete");
+        String deletePhoneNumber=properties.getProperty("beforeUpdatePhoneNumbers");
         QueriesManager.getInstance().setCreateContactSQL(createContact);
         QueriesManager.getInstance().setCreatePhoneNumberSQL(createPhoneNumber);
         QueriesManager.getInstance().setGetNextValueSQL(nextVal);
         QueriesManager.getInstance().setUpdateContactSQL(updateContactSQL);
-        QueriesManager.getInstance().setUpdatePhoneNumberSQL(updatePhoneNumbersSQL);
+        QueriesManager.getInstance().setUpdatePhoneNumbersSQL(updatePhoneNumbersSQL);
         QueriesManager.getInstance().setGetContactSQL(getContactSQL);
         QueriesManager.getInstance().setGetAllContactsSQL(getAllContacts);
         QueriesManager.getInstance().setDeleteContact(deleteContact);
+        QueriesManager.getInstance().setDeletePhoneNumber(deletePhoneNumber);
     }
 
     private void loadDatabaseProperties() throws IOException, SQLException {

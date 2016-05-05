@@ -11,14 +11,10 @@ import javax.servlet.http.Part;
 /**
  * Created by birsan on 4/22/2016.
  */
-public class ImageValidator implements Validator {
+public class CreateImageValidator implements Validator {
     @Override
     public void validate(FacesContext facesContext, UIComponent uiComponent, Object o) throws ValidatorException {
-        HtmlInputFile inputFile = (HtmlInputFile) uiComponent;
-        if (o == null && inputFile.getSubmittedValue() != null) {
-            return;
-        }
-        Part file = (Part) o;
+       Part file = (Part) o;
         if (o != null && !file.getContentType().contains("image")) {
             FacesMessage message = new FacesMessage("Invalid file extension!");
             throw new ValidatorException(message);
@@ -26,5 +22,5 @@ public class ImageValidator implements Validator {
             FacesMessage message = new FacesMessage("You should upload a picture!");
             throw new ValidatorException(message);
         }
+        }
     }
-}

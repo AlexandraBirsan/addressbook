@@ -75,9 +75,8 @@ public class ContactUpdateBackingBean {
     }
 
     public String addPhoneNumber() {
-        PhoneNumber number = new PhoneNumber();
-        number.setNumber("");
-        phoneNumbers.add(number.getNumber());
+        String number ="";
+        phoneNumbers.add(number);
         return "added";
     }
 

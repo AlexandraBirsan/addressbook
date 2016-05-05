@@ -60,6 +60,9 @@
         </h:form>
     </h:column>
 </h:dataTable>
+<h:form>
+    <h:commandButton value="Export data" action="#{export.download(allContactsBB.contacts)}"/>
+</h:form>
 <h:outputText value="Where to go next?"/>
 
 <p></p>

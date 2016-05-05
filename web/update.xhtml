@@ -23,7 +23,7 @@
                      requiredMessage="You should provide a non-empty company name"/>
         <h:outputLabel value="ProfilePicture"/>
         <h:inputFile id="photo" value="#{updateBean.photo}">
-            <f:validator validatorId="imageValidator"/>
+            <f:validator validatorId="updateImageValidator"/>
         </h:inputFile>
         <h:outputLabel value="PhoneNumber"/>
         <h:dataTable value="#{updateBean.phoneNumbers}" var="phoneNumber">

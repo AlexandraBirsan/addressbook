@@ -11,6 +11,4 @@ import java.util.List;
 public interface PhoneNumberDao {
     void createPhoneNumbers(Long id, List<PhoneNumber> phoneNumbers);
     void updatePhoneNumber(Contact contact);
-    List<PhoneNumber> getPhoneNumbers(Long id);
-    void deletePhoneNumbers(Long id);
 }

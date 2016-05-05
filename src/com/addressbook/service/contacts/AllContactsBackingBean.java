@@ -7,8 +7,11 @@ import org.apache.commons.io.IOUtils;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -31,8 +34,14 @@ public class AllContactsBackingBean {
             contactDTO.setPhoneNumber(buildPhoneNumber(contact));
             String base64 = null;
             try {
+                String defaultPhoto = "resources/images/defaultPhoto.png";
+                ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+                String absolutePath = servletContext.getRealPath(defaultPhoto);
+                InputStream is = new FileInputStream(absolutePath);
+               /* base64 = (contact.getPhoto() == null) ? Base64.getEncoder().encodeToString(IOUtils.toByteArray
+                        (new FileInputStream("C:\\Dev\\addressbook\\web\\resources\\images\\defaultPhoto.png"))) : Base64.getEncoder().encodeToString(contact.getPhoto());*/
                 base64 = (contact.getPhoto() == null) ? Base64.getEncoder().encodeToString(IOUtils.toByteArray
-                        (new FileInputStream("C:\\Dev\\addressbook\\web\\resources\\images\\defaultPhoto.png"))) : Base64.getEncoder().encodeToString(contact.getPhoto());
+                        (is)) : Base64.getEncoder().encodeToString(contact.getPhoto());
                 contactDTO.setPhoto("data:" + contact.getContentType() + ";base64, " + base64);
             } catch (IOException e) {
                 e.printStackTrace();
