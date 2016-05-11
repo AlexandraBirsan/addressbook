@@ -7,6 +7,7 @@ import com.addressbook.service.QueriesManager;
 import oracle.jdbc.OracleTypes;
 import org.apache.commons.dbutils.DbUtils;
 
+import javax.validation.constraints.Null;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.sql.*;
@@ -48,8 +49,13 @@ public class ContactsDaoImpl implements ContactsDao {
             insertStatement.setString(LAST_NAME_INDEX, contact.getLastName());
             insertStatement.setString(COMPANY_INDEX, contact.getCompany());
             insertStatement.setString(CONTENT_TYPE_INDEX, contact.getContentType());
-            InputStream photoInputStream = new ByteArrayInputStream(contact.getPhoto());
-            insertStatement.setBlob(PHOTO_INDEX, photoInputStream);
+            if (contact.getPhoto() != null) {
+                InputStream photoInputStream = new ByteArrayInputStream(contact.getPhoto());
+                insertStatement.setBlob(PHOTO_INDEX, photoInputStream);
+            }
+            else{
+                insertStatement.setBlob(PHOTO_INDEX, (InputStream)null);
+            }
             insertStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -107,8 +113,13 @@ public class ContactsDaoImpl implements ContactsDao {
             contact.setFirstName(firstName);
             contact.setLastName(lastName);
             contact.setCompany(company);
-            contact.setPhoto(photo.getBytes(1, (int) photo.length()));
-            contact.setContentType(contentType);
+            if (photo == null) {
+                contact.setPhoto(null);
+                contact.setContentType(null);
+            } else {
+                contact.setPhoto(photo.getBytes(1, (int) photo.length()));
+                contact.setContentType(contentType);
+            }
             if (phoneNumbers == null)
                 phoneNumbers = new ArrayList<>();
             contact.setPhoneNumbers(phoneNumbers);

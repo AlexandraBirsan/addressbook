@@ -1,7 +1,4 @@
-package com.addressbook.model;
-
-import com.addressbook.dto.AbstractContactDTO;
-import org.primefaces.model.StreamedContent;
+package com.addressbook.dto;
 
 /**
  * Created by birsan on 4/20/2016.

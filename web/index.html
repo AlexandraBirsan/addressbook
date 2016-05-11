@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://java.sun.com/jsf/html">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="resources/images/contacts.jpg"/>
+    <script type="text/javascript" src="scripts/lib/jquery.js"></script>
+    <script type="text/javascript" src="scripts/lib/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="scripts/create.js"></script>
+    <link rel="stylesheet" type="text/css" href="resources/css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="resources/css/lib/jquery.dataTables.min.css"/>
+</head>
+<body>
+<table id="listTable" class="display" cellspacing="0" width="100%">
+    <thead>
+    <tr>
+        <th class="sort">Company</th>
+        <th class="sort">FirstName</th>
+        <th class="sort">Id</th>
+        <th class="sort">LastName</th>
+        <th class="no-sort">PhoneNumber</th>
+    </tr>
+    </thead>
+</table>
+<button id="visibleCreate">Create Contact</button>
+<br><br>
+<div id="createContactDiv">
+    <table>
+        <tr>
+            <td><label for="firstName">FirstName</label></td>
+            <td><input id="firstName" type="text" value="Alex"/></td>
+        </tr>
+        <tr>
+            <td><label for="lastName">LastName</label></td>
+            <td><input id="lastName" type="text" value="Birsan"/></td>
+        </tr>
+        <tr>
+            <td><label for="company">Company</label></td>
+            <td><input id="company" type="text" value="Opt"/></td>
+        </tr>
+        <!--<tr>-->
+        <!--<td><label>Profile Photo</label></td>-->
+        <!--<td><input type="file"/></td>-->
+        <!--</tr>-->
+        <tr>
+            <td><label for="phoneNumTable">PhoneNumber</label></td>
+            <td>
+                <table id="phoneNumTable">
+                    <tr>
+                        <td><input class="phoneNumber" type="text" name="phoneNumber"/></td>
+                        <td>
+                            <input type="button" onclick="addPhoneNumber()" value="+"/>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <input type="button" id="submit" value="Submit" onclick="createContact()"/>
+</div>
+</body>
+</html>
