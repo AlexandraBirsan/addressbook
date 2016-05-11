@@ -8,7 +8,7 @@ public abstract class AbstractContactDTO {
     protected String firstName;
     protected String lastName;
     protected String company;
-    protected String phoneNumber;
+    protected String phoneNumber;/**/
 
     public Integer getId() {
         return id;
