@@ -70,7 +70,20 @@ function loadDataTable() {
             {"data": "firstName"},
             {"data": "id"},
             {"data": "lastName"},
-            {"data": "phoneNumber"}],
+            {"data": "phoneNumber"},
+            {
+                "data": null,
+                "render": function () {
+                    return '<button class='+"editButton"+'>' + 'sfd' + '</button>';
+                }
+            },
+            {
+                "data":null,
+                "render":function (object) {
+                    return '<button class='+"editButton"+'>' + object.id + '</button>';
+                }
+            }
+        ],
         "order": [[0, "asc"], [2, "asc"]],
         "columnDefs": [
             {
@@ -85,6 +98,9 @@ function loadDataTable() {
         "pagingType": "simple"
     });
 }
+
+
+
 $(document).ready(function () {
 
     $('#visibleCreate').click(function () {
@@ -93,4 +109,14 @@ $(document).ready(function () {
 
     loadDataTable();
 
+    $('#listTable').on('click','.editButton',function(event){
+        /*var cell = $(this).parent("td").index();
+
+        var row = $(cell).parent("tr").index();
+        alert(row)*/
+       // alert($(this).text())
+     //   $('#firstName').innerHTML=$(this).text();
+        event.preventDefault();
+        $('#createContactDiv').toggle();
+    })
 });

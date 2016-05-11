@@ -4,11 +4,7 @@ table {
 table, td, th {
     border: 1px solid black;
 }
-#bottom-text{
-    border-left: hidden;
-    border-bottom: hidden;
-    border-top: hidden;
-}
+
 .photo{
     max-height: 20px;
 }
@@ -20,6 +16,6 @@ table, td, th {
     font-size: 50px;
     font-family: cursive;
 }
-#createContactDiv{
+#ContactDiv {
     display: none;
 }

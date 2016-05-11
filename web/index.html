@@ -18,24 +18,27 @@
         <th class="sort">Id</th>
         <th class="sort">LastName</th>
         <th class="no-sort">PhoneNumber</th>
+        <th>Edit</th>
+        <th>Delete</th>
     </tr>
     </thead>
 </table>
-<button id="visibleCreate">Create Contact</button>
+<button id="visibleCreate">Contact Form</button>
 <br><br>
-<div id="createContactDiv">
+
+<div id="ContactDiv">
     <table>
         <tr>
             <td><label for="firstName">FirstName</label></td>
-            <td><input id="firstName" type="text" value="Alex"/></td>
+            <td><input id="firstName" type="text" value="--first name here--"/></td>
         </tr>
         <tr>
             <td><label for="lastName">LastName</label></td>
-            <td><input id="lastName" type="text" value="Birsan"/></td>
+            <td><input id="lastName" type="text" value="--last name here--"/></td>
         </tr>
         <tr>
             <td><label for="company">Company</label></td>
-            <td><input id="company" type="text" value="Opt"/></td>
+            <td><input id="company" type="text" value="--company--"/></td>
         </tr>
         <!--<tr>-->
         <!--<td><label>Profile Photo</label></td>-->
@@ -55,6 +58,7 @@
             </td>
         </tr>
     </table>
+    <br>
     <input type="button" id="submit" value="Submit" onclick="createContact()"/>
 </div>
 </body>
