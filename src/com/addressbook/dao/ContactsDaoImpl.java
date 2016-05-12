@@ -52,14 +52,14 @@ public class ContactsDaoImpl implements ContactsDao {
             if (contact.getPhoto() != null) {
                 InputStream photoInputStream = new ByteArrayInputStream(contact.getPhoto());
                 insertStatement.setBlob(PHOTO_INDEX, photoInputStream);
-            }
-            else{
-                insertStatement.setBlob(PHOTO_INDEX, (InputStream)null);
+            } else {
+                insertStatement.setBlob(PHOTO_INDEX, (InputStream) null);
             }
             insertStatement.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new RuntimeException("JDBC error!Could not create the contact");
         } finally {
             DbUtils.closeQuietly(insertStatement);
             DbUtils.closeQuietly(sequenceValue);
@@ -79,12 +79,17 @@ public class ContactsDaoImpl implements ContactsDao {
             updateStatement.setString(LAST_NAME_INDEX - 1, contact.getLastName());
             updateStatement.setString(COMPANY_INDEX - 1, contact.getCompany());
             updateStatement.setString(CONTENT_TYPE_INDEX - 1, contact.getContentType());
-            InputStream photoInputStream = new ByteArrayInputStream(contact.getPhoto());
-            updateStatement.setBlob(PHOTO_INDEX - 1, photoInputStream);
+            if (contact.getPhoto() != null) {
+                InputStream photoInputStream = new ByteArrayInputStream(contact.getPhoto());
+                updateStatement.setBlob(PHOTO_INDEX - 1, photoInputStream);
+            } else {
+                updateStatement.setBlob(PHOTO_INDEX - 1, (InputStream) null);
+            }
             updateStatement.setLong(6, contact.getId());
             updateStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new RuntimeException("JDBC error!Could not update the contact.");
         } finally {
             DbUtils.closeQuietly(updateStatement);
             DbUtils.closeQuietly(connection);
@@ -125,6 +130,7 @@ public class ContactsDaoImpl implements ContactsDao {
             contact.setPhoneNumbers(phoneNumbers);
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new RuntimeException("JDBC error!Could not get the contact.");
         } finally {
             DbUtils.closeQuietly(statement);
             DbUtils.closeQuietly(connection);
@@ -163,6 +169,7 @@ public class ContactsDaoImpl implements ContactsDao {
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new RuntimeException("JDBC error!Could not delete the contact.");
         } finally {
             DbUtils.closeQuietly(statement);
             DbUtils.closeQuietly(connection);
@@ -188,6 +195,7 @@ public class ContactsDaoImpl implements ContactsDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new RuntimeException("JDBC error! Could not get all the contacts.");
         } finally {
             DbUtils.closeQuietly(statement);
             DbUtils.closeQuietly(connection);

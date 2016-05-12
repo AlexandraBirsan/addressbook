@@ -35,23 +35,38 @@ public class ContactsWebService {
     public Response create(Contact contact) {
         try {
             ContactsServiceImpl.getInstance().createContact(contact);
-            return Response.status(Response.Status.NO_CONTENT).build();
+            return Response.status(Response.Status.OK).entity("Contact successfully created.").build();
         } catch (Exception ex) {
             ex.printStackTrace();
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Could not create the contact!").build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Could not create the contact!" + ex.getMessage()).build();
         }
     }
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
-    public Response update(Contact contact){
+    public Response update(Contact contact) {
         try {
+
             ContactsServiceImpl.getInstance().updateContact(contact);
-            return  Response.status(Response.Status.OK).build();
-        }catch (Exception e){
+            return Response.status(Response.Status.OK).entity("Contact successfully updated.").build();
+        } catch (Exception e) {
             e.printStackTrace();
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Could not update the contact!").build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Could not update the contact."+e.getMessage()).build();
+        }
+    }
+
+    @DELETE
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
+    @Path("/{id}")
+    public Response delete(@PathParam("id") Integer id) {
+        try {
+            ContactsServiceImpl.getInstance().deleteContact(id);
+            return Response.status(Response.Status.OK).entity("Contact successfully deleted.").build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Could not delete the contact." + e.getMessage()).build();
         }
     }
 }

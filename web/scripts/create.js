@@ -16,6 +16,9 @@ function appendRowToTable(table) {
     cell2.innerHTML = "";
 }
 
+function reloadDataTable() {
+    $('#listTable').DataTable().ajax.reload();
+}
 /**
  * Created by birsan on 5/9/2016.
  */
@@ -23,33 +26,50 @@ function createContact() {
     var firstName = $('#firstName').val();
     var lastName = $('#lastName').val();
     var company = $('#company').val();
+    var id = $('#id').val();
     var rawPhoneNumbers = getPhoneNumbers();
     var phoneNumbers = [];
     for (var i = 0; i < rawPhoneNumbers.length; i++) {
         phoneNumbers[i] = {"number": rawPhoneNumbers[i]}
     }
     var data = {
-        "firstName": firstName, "lastName": lastName,
+        "id": id, "firstName": firstName, "lastName": lastName,
         "company": company, "phoneNumbers": phoneNumbers
     };
 
-    $.ajax({
-        url: "api/contacts",
-        type: "POST",
-        data: JSON.stringify(data),
-        //dataType: "json",
-        processData: false,
-        contentType: "application/json; charset=utf-8",
-        success: function (response) {
-            $('#listTable').DataTable().ajax.reload();
-        },
-        complete: function (xhr, textStatus) {
-            if (xhr.status === 500) {
+    if (id === "") {
+        $.ajax({
+            url: "api/contacts",
+            type: "POST",
+            data: JSON.stringify(data),
+            processData: false,
+            contentType: "application/json; charset=utf-8",
+            success: function (response) {
+                $('#listTable').DataTable().ajax.reload();
+            },
+            complete: function (xhr, textStatus) {
+                if (xhr.status === 500) {
+                    alert(xhr.responseText);
+                }
+
+            }
+        });
+    }
+    else {
+        $.ajax({
+            url: "api/contacts",
+            type: "PUT",
+            data: JSON.stringify(data),
+            processData: false,
+            contentType: "application/json; charset=utf-8",
+            success: function (response) {
+                reloadDataTable();
+            },
+            complete: function (xhr, textStatus) {
                 alert(xhr.responseText);
             }
-
-        }
-    });
+        });
+    }
 }
 
 function getPhoneNumbers() {
@@ -58,6 +78,34 @@ function getPhoneNumbers() {
         my_array.push(element.value);
     });
     return my_array;
+}
+
+function loadContact(object) {
+    var company = object.getAttribute("data-company");
+    var firstName = object.getAttribute("data-first-name");
+    var lastName = object.getAttribute("data-last-name");
+    var id = object.getAttribute("data-id");
+    $('#company').val(company);
+    $('#firstName').val(firstName);
+    $('#lastName').val(lastName);
+    $('#id').val(id);
+    console.log(object);
+    $('#ContactDiv').toggle();
+}
+
+function deleteContact(object){
+    var id=object.getAttribute("data-id");
+    $.ajax({
+        url: "api/contacts/"+id,
+        type: "DELETE",
+        success: function (response) {
+            reloadDataTable();
+        },
+        complete: function (xhr, textStatus) {
+            alert(xhr.responseText);
+        }
+    });
+
 }
 
 function loadDataTable() {
@@ -73,14 +121,15 @@ function loadDataTable() {
             {"data": "phoneNumber"},
             {
                 "data": null,
-                "render": function () {
-                    return '<button class='+"editButton"+'>' + 'sfd' + '</button>';
+                "render": function (object) {
+                    return '<button data-company="' + object.company + '" data-first-name="' + object.firstName + '" data-last-name="' + object.lastName + '" data-id="' + object.id +
+                        '" onclick="loadContact(this)" class=' + "editButton" + '>' + 'Edit' + '</button>';
                 }
             },
             {
-                "data":null,
-                "render":function (object) {
-                    return '<button class='+"editButton"+'>' + object.id + '</button>';
+                "data": null,
+                "render": function (object) {
+                    return '<button  data-id="'+object.id+ '" onclick="deleteContact(this)">' + 'Delete' + '</button>';
                 }
             }
         ],
@@ -100,23 +149,9 @@ function loadDataTable() {
 }
 
 
-
 $(document).ready(function () {
-
     $('#visibleCreate').click(function () {
-        $('#createContactDiv').toggle();
+        loadContact(this)
     });
-
     loadDataTable();
-
-    $('#listTable').on('click','.editButton',function(event){
-        /*var cell = $(this).parent("td").index();
-
-        var row = $(cell).parent("tr").index();
-        alert(row)*/
-       // alert($(this).text())
-     //   $('#firstName').innerHTML=$(this).text();
-        event.preventDefault();
-        $('#createContactDiv').toggle();
-    })
 });
