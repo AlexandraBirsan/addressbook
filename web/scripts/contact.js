@@ -2,26 +2,42 @@
  * Created by birsan on 4/13/2016.
  */
 function addPhoneNumber() {
-    var table = document.getElementById("phoneNumTable");
-    appendRowToTable(table);
+    appendRowToTable("phoneNumTable");
 }
 
 function appendRowToTable(table) {
-    var row = table.insertRow(-1);
-    row.style.borderWidth = "1px";
-    row.style.borderStyle = "solid";
-    var cell1 = row.insertCell(0);
-    var cell2 = row.insertCell(1);
-    cell1.innerHTML = "<input type='text' class='phoneNumber' name='phoneNumber'/>";
-    cell2.innerHTML = "";
+    $('#' + table + ' tr:last').after(
+        "<tr><td><input type='text' class='phoneNumber' name='phoneNumber'/></td><td></td>"
+    );
+    //var row = table.insertRow(-1);
+    //row.style.borderWidth = "1px";
+    //row.style.borderStyle = "solid";
+    //var cell1 = row.insertCell(0);
+    //var cell2 = row.insertCell(1);
+    //cell1.innerHTML = "<input type='text' class='phoneNumber' name='phoneNumber'/>";
+    //cell2.innerHTML = "";
+}
+
+function appendRowToTablePhoneNumbers(table, text) {
+    $('#' + table + ' tr:last').after(
+        "<tr>" +
+            "<td>" +
+                "<input type='text' class='phoneNumber' name='phoneNumber' value='" + text + "'/>" +
+            "</td>" +
+            "<td></td>" +
+        "</tr>");
+    //var row = table.insertRow(-1);
+    //row.style.borderWidth = "1px";
+    //row.style.borderStyle = "solid";
+    //var cell1 = row.insertCell(0);
+    //var cell2 = row.insertCell(1);
+    //cell1.innerHTML = "<input type='text' class='phoneNumber' name='phoneNumber' value=" + text + "</input";
+    //cell2.innerHTML = "";
 }
 
 function reloadDataTable() {
     $('#listTable').DataTable().ajax.reload();
 }
-/**
- * Created by birsan on 5/9/2016.
- */
 function createContact() {
     var firstName = $('#firstName').val();
     var lastName = $('#lastName').val();
@@ -46,12 +62,19 @@ function createContact() {
             contentType: "application/json; charset=utf-8",
             success: function (response) {
                 $('#listTable').DataTable().ajax.reload();
+                //var my_array = [];
+                //$(":input[class^=phoneNumber]").each(function (index) {
+                //    my_array.push("");
+                //});
+                $("#phoneNumTable tr").remove();
+                $('#phoneNumTable').after(
+                    "<tr><td><input type='text' class='phoneNumber' name='phoneNumber'/></td><td></td>"
+                );
+                $('#ContactDiv').hide();
             },
             complete: function (xhr, textStatus) {
-                if (xhr.status === 500) {
-                    alert(xhr.responseText);
-                }
-
+                $('#errors').text(xhr.responseText);
+                $('#errorsDiv').show();
             }
         });
     }
@@ -63,10 +86,17 @@ function createContact() {
             processData: false,
             contentType: "application/json; charset=utf-8",
             success: function (response) {
+                $('#ContactDiv').hide();
+                var my_array = [];
+                $("#phoneNumTable tr").remove();
+                 $('#phoneNumTable').after(
+                    "<tr><td><input type='text' class='phoneNumber' name='phoneNumber'/></td><td></td>"
+                );
                 reloadDataTable();
             },
             complete: function (xhr, textStatus) {
-                alert(xhr.responseText);
+                $('#errors').text(xhr.responseText);
+                $('#errorsDiv').show();
             }
         });
     }
@@ -85,18 +115,31 @@ function loadContact(object) {
     var firstName = object.getAttribute("data-first-name");
     var lastName = object.getAttribute("data-last-name");
     var id = object.getAttribute("data-id");
+    var phoneNumber = object.getAttribute("data-phone-number");
     $('#company').val(company);
     $('#firstName').val(firstName);
     $('#lastName').val(lastName);
     $('#id').val(id);
-    console.log(object);
+    $('.phoneNumber').val(phoneNumber);
+    // split la phoneNumber dupa ,
+    // pentru fiecare phone number creezi <td><input class="phoneNumber" type="text" name="phoneNumber"/>phoneNumber value</td>
+    // adaugi in phoneNumTable fiecare input de mai sus
+    if(phoneNumber!=null) {
+        var phoneNumbers = phoneNumber.split(',');
+        for (var i = 0; i < phoneNumbers.length; i++) {
+            appendRowToTablePhoneNumbers("phoneNumTable", phoneNumbers[i]);
+            console.log(i);
+        }
+        console.log(phoneNumbers);
+    }
     $('#ContactDiv').toggle();
+    $('errorsDiv').hide();
 }
 
-function deleteContact(object){
-    var id=object.getAttribute("data-id");
+function deleteContact(object) {
+    var id = object.getAttribute("data-id");
     $.ajax({
-        url: "api/contacts/"+id,
+        url: "api/contacts/" + id,
         type: "DELETE",
         success: function (response) {
             reloadDataTable();
@@ -123,13 +166,13 @@ function loadDataTable() {
                 "data": null,
                 "render": function (object) {
                     return '<button data-company="' + object.company + '" data-first-name="' + object.firstName + '" data-last-name="' + object.lastName + '" data-id="' + object.id +
-                        '" onclick="loadContact(this)" class=' + "editButton" + '>' + 'Edit' + '</button>';
+                        '"data-phone-number="' + object.phoneNumber + '" onclick="loadContact(this)" class=' + "editButton" + '>' + 'Edit' + '</button>';
                 }
             },
             {
                 "data": null,
                 "render": function (object) {
-                    return '<button  data-id="'+object.id+ '" onclick="deleteContact(this)">' + 'Delete' + '</button>';
+                    return '<button  data-id="' + object.id + '" onclick="deleteContact(this)">' + 'Delete' + '</button>';
                 }
             }
         ],
@@ -148,6 +191,10 @@ function loadDataTable() {
     });
 }
 
+function gotThis() {
+    $('#errors').text("");
+    $('#errorsDiv').hide();
+}
 
 $(document).ready(function () {
     $('#visibleCreate').click(function () {
