@@ -1,44 +1,10 @@
 /**
  * Created by birsan on 4/13/2016.
  */
-function addPhoneNumber() {
-    appendRowToTable("phoneNumTable");
-}
 
-function appendRowToTable(table) {
-    $('#' + table + ' tr:last').after(
-        "<tr><td><input type='text' class='phoneNumber' name='phoneNumber'/></td><td></td>"
-    );
-    //var row = table.insertRow(-1);
-    //row.style.borderWidth = "1px";
-    //row.style.borderStyle = "solid";
-    //var cell1 = row.insertCell(0);
-    //var cell2 = row.insertCell(1);
-    //cell1.innerHTML = "<input type='text' class='phoneNumber' name='phoneNumber'/>";
-    //cell2.innerHTML = "";
-}
+var INPUT_WITH_ADD_BUTTON = "<input type='button' onclick='addPhoneNumber()' value='+'/>"
 
-function appendRowToTablePhoneNumbers(table, text) {
-    $('#' + table + ' tr:last').after(
-        "<tr>" +
-            "<td>" +
-                "<input type='text' class='phoneNumber' name='phoneNumber' value='" + text + "'/>" +
-            "</td>" +
-            "<td></td>" +
-        "</tr>");
-    //var row = table.insertRow(-1);
-    //row.style.borderWidth = "1px";
-    //row.style.borderStyle = "solid";
-    //var cell1 = row.insertCell(0);
-    //var cell2 = row.insertCell(1);
-    //cell1.innerHTML = "<input type='text' class='phoneNumber' name='phoneNumber' value=" + text + "</input";
-    //cell2.innerHTML = "";
-}
-
-function reloadDataTable() {
-    $('#listTable').DataTable().ajax.reload();
-}
-function createContact() {
+function createOrUpdateContact() {
     var firstName = $('#firstName').val();
     var lastName = $('#lastName').val();
     var company = $('#company').val();
@@ -54,51 +20,10 @@ function createContact() {
     };
 
     if (id === "") {
-        $.ajax({
-            url: "api/contacts",
-            type: "POST",
-            data: JSON.stringify(data),
-            processData: false,
-            contentType: "application/json; charset=utf-8",
-            success: function (response) {
-                $('#listTable').DataTable().ajax.reload();
-                //var my_array = [];
-                //$(":input[class^=phoneNumber]").each(function (index) {
-                //    my_array.push("");
-                //});
-                $("#phoneNumTable tr").remove();
-                $('#phoneNumTable').after(
-                    "<tr><td><input type='text' class='phoneNumber' name='phoneNumber'/></td><td></td>"
-                );
-                $('#ContactDiv').hide();
-            },
-            complete: function (xhr, textStatus) {
-                $('#errors').text(xhr.responseText);
-                $('#errorsDiv').show();
-            }
-        });
+        invokeCreateContact(data);
     }
     else {
-        $.ajax({
-            url: "api/contacts",
-            type: "PUT",
-            data: JSON.stringify(data),
-            processData: false,
-            contentType: "application/json; charset=utf-8",
-            success: function (response) {
-                $('#ContactDiv').hide();
-                var my_array = [];
-                $("#phoneNumTable tr").remove();
-                 $('#phoneNumTable').after(
-                    "<tr><td><input type='text' class='phoneNumber' name='phoneNumber'/></td><td></td>"
-                );
-                reloadDataTable();
-            },
-            complete: function (xhr, textStatus) {
-                $('#errors').text(xhr.responseText);
-                $('#errorsDiv').show();
-            }
-        });
+        invokeUpdateContact(data);
     }
 }
 
@@ -110,7 +35,7 @@ function getPhoneNumbers() {
     return my_array;
 }
 
-function loadContact(object) {
+function loadContactData(object) {
     var company = object.getAttribute("data-company");
     var firstName = object.getAttribute("data-first-name");
     var lastName = object.getAttribute("data-last-name");
@@ -120,36 +45,31 @@ function loadContact(object) {
     $('#firstName').val(firstName);
     $('#lastName').val(lastName);
     $('#id').val(id);
-    $('.phoneNumber').val(phoneNumber);
-    // split la phoneNumber dupa ,
-    // pentru fiecare phone number creezi <td><input class="phoneNumber" type="text" name="phoneNumber"/>phoneNumber value</td>
-    // adaugi in phoneNumTable fiecare input de mai sus
-    if(phoneNumber!=null) {
-        var phoneNumbers = phoneNumber.split(',');
-        for (var i = 0; i < phoneNumbers.length; i++) {
-            appendRowToTablePhoneNumbers("phoneNumTable", phoneNumbers[i]);
-            console.log(i);
+    if (id === null) {
+        clearAllRowsFromTable("phoneNumTable");
+        $('#phoneNumTableBody').append(
+            "<tr><td><input type='text' class='phoneNumber' name='phoneNumber'/></td><td>" + INPUT_WITH_ADD_BUTTON + "</td></tr>"
+        );
+    } else {
+        clearAllRowsFromTable("phoneNumTable");
+        if (phoneNumber != null) {
+            var phoneNumbers = phoneNumber.replace(/\s+/g, '')
+            phoneNumbers = phoneNumbers.split(',');
+            for (var i = 0; i < phoneNumbers.length; i++) {
+                appendRowToTablePhoneNumbers("phoneNumTable", phoneNumbers[i]);
+                if (i == 0) {
+                    $("#phoneNumTableBody").children('tr:first').find('td:last').append(INPUT_WITH_ADD_BUTTON);
+                }
+                console.log(i);
+            }
+            console.log(phoneNumbers);
         }
-        console.log(phoneNumbers);
     }
-    $('#ContactDiv').toggle();
+    $('#ContactDiv').show();
     $('errorsDiv').hide();
 }
 
-function deleteContact(object) {
-    var id = object.getAttribute("data-id");
-    $.ajax({
-        url: "api/contacts/" + id,
-        type: "DELETE",
-        success: function (response) {
-            reloadDataTable();
-        },
-        complete: function (xhr, textStatus) {
-            alert(xhr.responseText);
-        }
-    });
 
-}
 
 function loadDataTable() {
     $('#listTable').DataTable({
@@ -166,13 +86,13 @@ function loadDataTable() {
                 "data": null,
                 "render": function (object) {
                     return '<button data-company="' + object.company + '" data-first-name="' + object.firstName + '" data-last-name="' + object.lastName + '" data-id="' + object.id +
-                        '"data-phone-number="' + object.phoneNumber + '" onclick="loadContact(this)" class=' + "editButton" + '>' + 'Edit' + '</button>';
+                        '"data-phone-number="' + object.phoneNumber + '" onclick="loadContactData(this)" class=' + "editButton" + '>' + 'Edit' + '</button>';
                 }
             },
             {
                 "data": null,
                 "render": function (object) {
-                    return '<button  data-id="' + object.id + '" onclick="deleteContact(this)">' + 'Delete' + '</button>';
+                    return '<button  data-id="' + object.id + '" onclick="invokeDeleteContact(this)">' + 'Delete' + '</button>';
                 }
             }
         ],
@@ -186,9 +106,32 @@ function loadDataTable() {
                 "targets": 'sort',
                 "orderable": true,
                 "searchable": true
+            },
+            {
+                "targets":[2],
+                "visible": false,
+                "searchable": false
             }],
         "pagingType": "simple"
     });
+}
+
+function addPhoneNumber() {
+    appendRowToTablePhoneNumbers("phoneNumTable", "");
+}
+
+function appendRowToTablePhoneNumbers(table, text) {
+    $('#' + table + '> tbody').append(
+        "<tr>" +
+        "<td>" +
+        "<input type='text' class='phoneNumber' name='phoneNumber' value='" + text + "'/>" +
+        "</td>" +
+        "<td></td>" +
+        "</tr>");
+}
+
+function reloadDataTable() {
+    $('#listTable').DataTable().ajax.reload();
 }
 
 function gotThis() {
@@ -197,8 +140,8 @@ function gotThis() {
 }
 
 $(document).ready(function () {
-    $('#visibleCreate').click(function () {
-        loadContact(this)
+    $('#visibleCreate').click(function showContact() {
+        loadContactData(this)
     });
     loadDataTable();
 });

@@ -25,10 +25,15 @@ public class ContactsWebService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public AllContactResponseDto getAll() {
-        List<ContactDto> contacts = ContactDtoUtils.getContacts();
-        AllContactResponseDto responseDTO = new AllContactResponseDto();
-        responseDTO.setData(contacts);
-        return responseDTO;
+        try {
+            List<ContactDto> contacts = ContactDtoUtils.getContacts();
+            AllContactResponseDto responseDTO = new AllContactResponseDto();
+            responseDTO.setData(contacts);
+            return responseDTO;
+        } catch (Exception ex){
+            ex.printStackTrace();
+            return new AllContactResponseDto();
+        }
     }
 
     @POST
