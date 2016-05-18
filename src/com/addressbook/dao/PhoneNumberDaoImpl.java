@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by birsan on 4/27/2016.
  */
-@Component
+@Component("phoneNumberDao")
 public class PhoneNumberDaoImpl implements PhoneNumberDao {
     @Override
     public void createPhoneNumbers(Long id, List<PhoneNumber> phoneNumbers) {

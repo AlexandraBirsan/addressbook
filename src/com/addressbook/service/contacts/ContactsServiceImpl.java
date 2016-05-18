@@ -1,6 +1,8 @@
 package com.addressbook.service.contacts;
 
+import com.addressbook.dao.ContactsDao;
 import com.addressbook.dao.ContactsDaoImpl;
+import com.addressbook.dao.PhoneNumberDao;
 import com.addressbook.dao.PhoneNumberDaoImpl;
 import com.addressbook.model.Contact;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,36 +13,36 @@ import java.util.List;
 /**
  * Created by birsan on 4/12/2016.
  */
-@Component
+@Component("contactService")
 public class ContactsServiceImpl implements ContactsService {
 
-    @Autowired private ContactsDaoImpl contactsDaoImpl;
-    @Autowired private PhoneNumberDaoImpl phoneNumberDaoImpl;
+    @Autowired private ContactsDao contactsDao;
+    @Autowired private PhoneNumberDao phoneNumberDao;
 
     @Override
     public void createContact(Contact contact) {
-        Long id = contactsDaoImpl.createContact(contact);
-        phoneNumberDaoImpl.createPhoneNumbers(id, contact.getPhoneNumbers());
+        Long id = contactsDao.createContact(contact);
+        phoneNumberDao.createPhoneNumbers(id, contact.getPhoneNumbers());
     }
 
     @Override
     public void updateContact(Contact contact) {
-        contactsDaoImpl.updateContact(contact);
-        phoneNumberDaoImpl.updatePhoneNumber(contact);
+        contactsDao.updateContact(contact);
+        phoneNumberDao.updatePhoneNumber(contact);
     }
 
     @Override
     public Contact getContact(Integer id) {
-        return contactsDaoImpl.getContact(id);
+        return contactsDao.getContact(id);
     }
 
     @Override
     public void deleteContact(Integer id) {
-        contactsDaoImpl.deleteContact(id);
+        contactsDao.deleteContact(id);
     }
 
     @Override
     public List<Contact> getAll() {
-        return contactsDaoImpl.getAll();
+        return contactsDao.getAll();
     }
 }

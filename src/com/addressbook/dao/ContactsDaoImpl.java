@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by birsan on 4/26/2016.
  */
-@Component
+@Component("contactsDao")
 public class ContactsDaoImpl implements ContactsDao {
 
     private static final int FIRST_NAME_INDEX = 2;

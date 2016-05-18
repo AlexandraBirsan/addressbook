@@ -19,10 +19,10 @@ import java.util.List;
  * Created by birsan on 5/9/2016.
  */
 @Component
-@Path("/contacts")
+@Path("/api/contacts")
 public class ContactsWebService {
 
-    @Autowired private ContactsServiceImpl contactsServiceImpl;
+    @Autowired private ContactsService contactsService;
     @Autowired private ContactDtoUtils contactDtoUtils;
     @Context private UriInfo context;
 
@@ -48,7 +48,7 @@ public class ContactsWebService {
         try {
             ContactValidator.getInstance().validateContact(contact);
             //ContactsServiceImpl.getInstance().createContact(contact);
-            contactsServiceImpl.createContact(contact);
+            contactsService.createContact(contact);
             return Response.status(Response.Status.OK).entity("Contact successfully created.").build();
         } catch (ValidationException validationException) {
             validationException.printStackTrace();
@@ -66,7 +66,7 @@ public class ContactsWebService {
         try {
             ContactValidator.getInstance().validateContact(contact);
             //ContactsServiceImpl.getInstance().updateContact(contact);
-            contactsServiceImpl.updateContact(contact);
+            contactsService.updateContact(contact);
             return Response.status(Response.Status.OK).entity("Contact successfully updated.").build();
         } catch (ValidationException validationException) {
             validationException.printStackTrace();
@@ -84,7 +84,7 @@ public class ContactsWebService {
     public Response delete(@PathParam("id") Integer id) {
         try {
             //ContactsServiceImpl.getInstance().deleteContact(id);
-            contactsServiceImpl.deleteContact(id);
+            contactsService.deleteContact(id);
             return Response.status(Response.Status.OK).entity("Contact successfully deleted.").build();
         } catch (Exception e) {
             e.printStackTrace();

@@ -6,5 +6,5 @@ import javax.ws.rs.core.Application;
 /**
  * Created by birsan on 5/10/2016.
  */
-@ApplicationPath("/api/")
+//@ApplicationPath("/api/")
 public class WebServiceEndpoint extends Application {}
