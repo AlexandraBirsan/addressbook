@@ -1,4 +1,4 @@
-package tests;
+package com.addressbook;
 
 import com.addressbook.exceptions.ValidationException;
 import com.addressbook.model.Contact;

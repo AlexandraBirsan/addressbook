@@ -6,8 +6,8 @@ import com.addressbook.service.ConnectionConstants;
 import com.addressbook.service.QueriesManager;
 import oracle.jdbc.OracleTypes;
 import org.apache.commons.dbutils.DbUtils;
+import org.springframework.stereotype.Component;
 
-import javax.validation.constraints.Null;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.sql.*;
@@ -17,6 +17,7 @@ import java.util.List;
 /**
  * Created by birsan on 4/26/2016.
  */
+@Component
 public class ContactsDaoImpl implements ContactsDao {
 
     private static final int FIRST_NAME_INDEX = 2;

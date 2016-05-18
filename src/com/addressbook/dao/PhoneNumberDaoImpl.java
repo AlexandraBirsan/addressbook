@@ -5,6 +5,7 @@ import com.addressbook.model.PhoneNumber;
 import com.addressbook.service.ConnectionConstants;
 import com.addressbook.service.QueriesManager;
 import org.apache.commons.dbutils.DbUtils;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,6 +16,7 @@ import java.util.List;
 /**
  * Created by birsan on 4/27/2016.
  */
+@Component
 public class PhoneNumberDaoImpl implements PhoneNumberDao {
     @Override
     public void createPhoneNumbers(Long id, List<PhoneNumber> phoneNumbers) {

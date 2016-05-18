@@ -3,6 +3,8 @@ package com.addressbook.service.contacts;
 import com.addressbook.model.Contact;
 import com.addressbook.dto.ContactDto;
 import com.addressbook.model.PhoneNumber;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,11 +12,14 @@ import java.util.List;
 /**
  * Created by birsan on 5/10/2016.
  */
+@Component
 public class ContactDtoUtils {
-    private ContactDtoUtils() {}
 
-    public static List<ContactDto> getContacts() {
-        List<Contact> contacts = ContactsServiceImpl.getInstance().getAll();
+    @Autowired private ContactsServiceImpl contactsServiceImpl;
+
+    public List<ContactDto> getContacts() {
+        // List<Contact> contacts = ContactsServiceImpl.getInstance().getAll();
+        List<Contact> contacts = contactsServiceImpl.getAll();
         List<ContactDto> contactDtos = new ArrayList<>(contacts.size());
         contacts.stream().forEach(contact -> {
             ContactDto contactDto = new ContactDto();

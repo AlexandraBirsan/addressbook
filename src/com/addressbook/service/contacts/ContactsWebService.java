@@ -5,6 +5,8 @@ import com.addressbook.exceptions.ValidationException;
 import com.addressbook.model.Contact;
 import com.addressbook.dto.ContactDto;
 import com.addressbook.validators.ContactValidator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -16,17 +18,20 @@ import java.util.List;
 /**
  * Created by birsan on 5/9/2016.
  */
+@Component
 @Path("/contacts")
 public class ContactsWebService {
 
-    @Context
-    private UriInfo context;
+    @Autowired private ContactsServiceImpl contactsServiceImpl;
+    @Autowired private ContactDtoUtils contactDtoUtils;
+    @Context private UriInfo context;
+
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public AllContactResponseDto getAll() {
         try {
-            List<ContactDto> contacts = ContactDtoUtils.getContacts();
+            List<ContactDto> contacts = contactDtoUtils.getContacts();
             AllContactResponseDto responseDTO = new AllContactResponseDto();
             responseDTO.setData(contacts);
             return responseDTO;
@@ -42,7 +47,8 @@ public class ContactsWebService {
     public Response create(Contact contact) {
         try {
             ContactValidator.getInstance().validateContact(contact);
-            ContactsServiceImpl.getInstance().createContact(contact);
+            //ContactsServiceImpl.getInstance().createContact(contact);
+            contactsServiceImpl.createContact(contact);
             return Response.status(Response.Status.OK).entity("Contact successfully created.").build();
         } catch (ValidationException validationException) {
             validationException.printStackTrace();
@@ -59,7 +65,8 @@ public class ContactsWebService {
     public Response update(Contact contact) {
         try {
             ContactValidator.getInstance().validateContact(contact);
-            ContactsServiceImpl.getInstance().updateContact(contact);
+            //ContactsServiceImpl.getInstance().updateContact(contact);
+            contactsServiceImpl.updateContact(contact);
             return Response.status(Response.Status.OK).entity("Contact successfully updated.").build();
         } catch (ValidationException validationException) {
             validationException.printStackTrace();
@@ -76,7 +83,8 @@ public class ContactsWebService {
     @Path("/{id}")
     public Response delete(@PathParam("id") Integer id) {
         try {
-            ContactsServiceImpl.getInstance().deleteContact(id);
+            //ContactsServiceImpl.getInstance().deleteContact(id);
+            contactsServiceImpl.deleteContact(id);
             return Response.status(Response.Status.OK).entity("Contact successfully deleted.").build();
         } catch (Exception e) {
             e.printStackTrace();
